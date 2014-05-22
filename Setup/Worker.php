@@ -1,0 +1,48 @@
+<?php
+
+namespace Plugin\Newsletter\Setup;
+
+class Worker extends \Ip\SetupWorker
+{
+
+    /**
+     * Create SQL table on plugin activation
+     */
+    public function activate()
+    {
+        $sql = '
+        CREATE TABLE IF NOT EXISTS
+           ' . ipTable('newsletterSubscribers') . '
+        (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `personOrder` double,
+        `Email` varchar(255) ,
+        PRIMARY KEY (`id`)
+        )';
+        ipDb()->execute($sql);
+
+
+        $sql = '
+        CREATE TABLE IF NOT EXISTS
+           ' . ipTable('newsletterPosts') . '
+        (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `emailSubject` varchar(255),
+        `emailText` text,
+        PRIMARY KEY (`id`)
+        )';
+        ipDb()->execute($sql);
+
+
+    }
+
+    public function deactivate()
+    {
+    }
+
+    public function remove()
+    {
+    }
+
+}
+

@@ -1,0 +1,15 @@
+{
+"title": "Newsletter",
+"version": "1.01",
+"name": "Newsletter",
+"description": "Newsletter plugin for ImpressPages.",
+"author": "ImpressPages",
+    "options": [
+        {
+            "label": "Newsletter admin. items per page",
+            "name": "adminPageItems",
+            "type": "text",
+            "default": "25"
+        }
+    ]
+}
