@@ -10,6 +10,12 @@
             "name": "adminPageItems",
             "type": "text",
             "default": "25"
+        },
+        {
+            "label": "From e-mail address",
+            "name": "fromEmail",
+            "type": "text",
+            "default": ""
         }
     ]
 }

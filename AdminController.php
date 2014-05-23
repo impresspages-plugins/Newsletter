@@ -37,7 +37,20 @@ class AdminController
             'preview' => function ($id, $record) {
                    return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsPreview">Preview</button>';
                 },
-            'allowUpdate' => false
+            'allowUpdate' => false,
+            'allowCreate' => false
+        );
+
+
+
+        $fields[] = array(
+            'label' => '',
+            'field' => 'id',
+            'preview' => function ($id, $record) {
+                    return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsSend">Send</button>';
+                },
+            'allowUpdate' => false,
+            'allowCreate' => false
         );
 
         $fields[] = array(
@@ -48,13 +61,15 @@ class AdminController
         $fields[] = array(
             'label' => 'E-mail text',
             'field' => 'emailText',
+            'type' => 'RichText',
+            'previewMethod' => '\Plugin\Newsletter\Model::previewEmailText'
         );
 
         $config = array(
             'title' => 'Posts',
             'table' => 'newsletterPosts',
             'deleteWarning' => 'Are you sure?',
-            'sortField' => 'emailSubject',
+            'sortField' => 'postOrder',
             'createPosition' => 'top',
             'pageSize' => ipGetOption('Newsletter.adminPageItems'),
             'fields' => $fields
@@ -63,6 +78,19 @@ class AdminController
         return $this->gridGateway($config);
     }
 
+    public function send(){
+
+        $newsletterId = ipRequest()->getPost('id');
+        if (isset($newsletterId) && is_numeric($newsletterId)){
+            Model::send($newsletterId);
+            return new \Ip\Response\Json( array('status' => 'success', 'message' => 'Messages were sent successfully.'));
+        }else{
+            return new \Ip\Response\Json( array('status' => 'error', 'message' => 'Error occurred.'));
+        }
+
+
+
+    }
 
     //SUBSCRIBERS
 
@@ -84,7 +112,7 @@ class AdminController
             'fields' => array(
                 array(
                     'label' => 'Email',
-                    'field' => 'Email',
+                    'field' => 'email',
                     'validators' => array('Required', 'Email'),
                 )
             )

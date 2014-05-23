@@ -18,6 +18,14 @@ var NewsletterAdmin = new function() {
             var data  = $this.data();
             preview(data);
         });
+
+        $('.ipsSend').off('click').on('click', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var data  = $this.data();
+            send(data);
+        });
+
     }
 
 
@@ -37,6 +45,31 @@ var NewsletterAdmin = new function() {
 
         $modal.find('.modal-body').html(emailText);
         $modal.modal();
+    }
+
+    var send = function (data) {
+
+        var id = data.id;
+        var emailSubject = data.emailsubject;
+        var emailText = data.emailtext;
+
+        $.ajax({
+            url: ip.baseUrl, //we assume that for already has m, g, a parameters which will lead this request to required controller
+            dataType: 'json',
+            type : 'POST',
+            data: {
+                aa: 'Newsletter.send',
+                id: id,
+                emailSubject: emailSubject,
+                emailText: emailText,
+                securityToken: ip.securityToken
+            },
+            success: function (response) {
+                //do nothing
+                alert(response.message);
+            }
+        });
+
     }
 
 

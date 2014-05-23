@@ -16,7 +16,9 @@ class Worker extends \Ip\SetupWorker
         (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `personOrder` double,
-        `Email` varchar(255) ,
+        `email` varchar(255) ,
+        `langCode` varchar(5) ,
+        `isSubscribed` boolean,
         PRIMARY KEY (`id`)
         )';
         ipDb()->execute($sql);
@@ -27,12 +29,14 @@ class Worker extends \Ip\SetupWorker
            ' . ipTable('newsletterPosts') . '
         (
         `id` int(11) NOT NULL AUTO_INCREMENT,
+        `postOrder` double,
         `emailSubject` varchar(255),
         `emailText` text,
         PRIMARY KEY (`id`)
         )';
         ipDb()->execute($sql);
 
+        ipSetOption('Newsletter.fromEmail', ipGetOptionLang('Config.websiteEmail'));
 
     }
 

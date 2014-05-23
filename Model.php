@@ -12,9 +12,9 @@ class Model {
      * @param $email
      */
 
-    public static function save($email) {
+    public static function save($email, $langCode = 'en') {
 
-        ipDb()->insert('newsletterSubscribers', array('Email' => $email));
+        ipDb()->insert('newsletterSubscribers', array('email' => $email, 'isSubscribed' => 1, 'langCode' => $langCode));
     }
 
     /**
@@ -23,7 +23,7 @@ class Model {
      */
     public static function isRegistered($email){
 
-        $result = ipDb()->selectAll('newsletterSubscribers', '*', array('Email' => $email));
+        $result = ipDb()->selectAll('newsletterSubscribers', '*', array('email' => $email));
         if (count($result)>0){
             return true;
         }else{
@@ -67,5 +67,42 @@ class Model {
 
         return $form;
     }
+
+    public static function getSubscribers(){
+        return ipDb()->selectAll('newsletterSubscribers', '*');
+    }
+
+    public static function send($newsletterId){
+
+        $subscribers = self::getSubscribers();
+        $title = self::getNewsletterTitle($newsletterId);
+        $text = self::getNewsletterText($newsletterId);
+
+        foreach ($subscribers as $subscriber){
+            ipSendEmail(ipGetOption('Newsletter.fromEmail'), ipGetOption('Newsletter.fromName'), $subscriber['email'], $subscriber['email'], $title, $text);
+        }
+    }
+
+    public static function getNewsletterTitle($id){
+        $postTitle = ipDb()->selectValue('newsletterPosts', 'emailSubject', array('id' => $id));
+        return $postTitle;
+    }
+
+    public static function getNewsletterText($id){
+        $postTitle = ipDb()->selectValue('newsletterPosts', 'emailText', array('id' => $id));
+        return $postTitle;
+    }
+
+
+    public static function previewEmailText($listValues){
+
+
+        $html2text = new \Ip\Internal\Text\Html2Text('<html><body>'.$listValues['emailText'].'</body></html>', false);
+        $text = esc($html2text->get_text());
+        $text = substr($text, 0, 255);
+
+        return $text;
+    }
+
 
 } 

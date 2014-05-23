@@ -32,7 +32,7 @@ class SiteController extends \Ip\Controller {
         if ($errors) {
             $status = array('status' => 'error', 'errors' => $errors); //success
         } else {
-            Model::save(ipRequest()->getPost('email'));
+            Model::save(ipRequest()->getPost('email'), ipContent()->getCurrentLanguage()->getCode());
             $status = array('status' => 'ok'); //success
         }
 
