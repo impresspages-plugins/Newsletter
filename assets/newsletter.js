@@ -61,7 +61,7 @@ var NewsletterAdmin = new function() {
 
         var emailSubject = data.emailsubject;
 
-        var confirmed=window.confirm("Click OK button to send your newsletter.\n\nNewsletter subject: \n" + data.emailsubject);
+        var confirmed=window.confirm("Do you want to send email messages?\n\nNewsletter subject: \n" + data.emailsubject);
 
         if (confirmed){
             send(data);

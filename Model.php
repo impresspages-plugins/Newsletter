@@ -93,6 +93,7 @@ class Model {
         $text = self::getNewsletterText($newsletterId);
 
         foreach ($subscribers as $subscriber){
+//            ipSendEmail('info@example.com', 'from name', 'subscriber@example.com', 'subscriber@example.com', ' TEMA', ' TEKSTAS');
             ipSendEmail(ipGetOption('Newsletter.fromEmail'), ipGetOption('Newsletter.fromName'), $subscriber['email'], $subscriber['email'], $title, $text);
         }
     }
@@ -103,12 +104,12 @@ class Model {
     }
 
     public static function getNewsletterText($id){
-        $postTitle = ipDb()->selectValue('newsletterPosts', 'emailText', array('id' => $id));
-        return $postTitle;
+        $postText = ipDb()->selectValue('newsletterPosts', 'emailText', array('id' => $id));
+        return $postText;
     }
 
 
-    public static function previewEmailText($listValues){
+    public static function previewEmailText($value, $listValues){
 
 
         $html2text = new \Ip\Internal\Text\Html2Text('<html><body>'.$listValues['emailText'].'</body></html>', false);

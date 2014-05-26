@@ -38,7 +38,8 @@ class AdminController
                    return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsPreview">Preview</button>';
                 },
             'allowUpdate' => false,
-            'allowCreate' => false
+            'allowCreate' => false,
+            'allowSearch' => false
         );
 
 
@@ -50,7 +51,8 @@ class AdminController
                     return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsSend">Send</button>';
                 },
             'allowUpdate' => false,
-            'allowCreate' => false
+            'allowCreate' => false,
+            'allowSearch' => false
         );
 
         $fields[] = array(
@@ -62,7 +64,7 @@ class AdminController
             'label' => 'E-mail text',
             'field' => 'emailText',
             'type' => 'RichText',
-            'previewMethod' => '\Plugin\Newsletter\Model::previewEmailText'
+            'preview' => '\Plugin\Newsletter\Model::previewEmailText'
         );
 
 
@@ -82,7 +84,9 @@ class AdminController
             'sortField' => 'postOrder',
             'createPosition' => 'top',
             'pageSize' => ipGetOption('Newsletter.adminPageItems'),
-            'fields' => $fields
+            'fields' => $fields,
+            'allowSort' => false
+
         );
 
         return $this->gridGateway($config);
@@ -138,7 +142,8 @@ class AdminController
             'sortField' => 'personOrder',
             'createPosition' => 'top',
             'pageSize' => ipGetOption('Newsletter.adminPageItems'),
-            'fields' => $fields
+            'fields' => $fields,
+            'allowSort' => false
         );
         return $this->gridGateway($config);
     }
