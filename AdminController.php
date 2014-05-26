@@ -65,6 +65,16 @@ class AdminController
             'previewMethod' => '\Plugin\Newsletter\Model::previewEmailText'
         );
 
+
+        $languages = self::getLanguages();
+
+        $fields[] = array(
+            'label' => 'Language code',
+            'field' => 'langCode',
+            'type' => 'select',
+            'values' => $languages
+        );
+
         $config = array(
             'title' => 'Posts',
             'table' => 'newsletterPosts',
@@ -102,6 +112,25 @@ class AdminController
 
     public function subscribersGrid()
     {
+
+        $fields = Array();
+
+        $fields[] =
+            array(
+                'label' => 'Email',
+                'field' => 'email',
+                'validators' => array('Required', 'Email'),
+        );
+
+        $languages = self::getLanguages();
+
+        $fields[] = array(
+            'label' => 'Language code',
+            'field' => 'langCode',
+            'type' => 'select',
+            'values' => $languages
+        );
+
         $config = array(
             'title' => 'Subscribers',
             'table' => 'newsletterSubscribers',
@@ -109,13 +138,7 @@ class AdminController
             'sortField' => 'personOrder',
             'createPosition' => 'top',
             'pageSize' => ipGetOption('Newsletter.adminPageItems'),
-            'fields' => array(
-                array(
-                    'label' => 'Email',
-                    'field' => 'email',
-                    'validators' => array('Required', 'Email'),
-                )
-            )
+            'fields' => $fields
         );
         return $this->gridGateway($config);
     }
@@ -183,5 +206,18 @@ class AdminController
 
         return new \Ip\Response\JsonRpc($result);
 
+    }
+
+    private static function getLanguages(){
+
+        $langObjects = ipContent()->getLanguages();
+        $languages = Array();
+
+        foreach ($langObjects as $langObject){
+            $language = array($langObject->getCode(), $langObject->longDescription);
+            $languages[] = $language;
+        }
+
+        return $languages;
     }
 } 

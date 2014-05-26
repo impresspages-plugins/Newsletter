@@ -68,13 +68,27 @@ class Model {
         return $form;
     }
 
-    public static function getSubscribers(){
-        return ipDb()->selectAll('newsletterSubscribers', '*');
+    public static function getSubscribers($langCode = false){
+        if (!$langCode){
+            $lang = ipDb()->selectAll('newsletterSubscribers', '*');
+        }else{
+            $lang = ipDb()->selectAll('newsletterSubscribers', '*', array('langCode' => $langCode));
+        }
+        return $lang;
+    }
+
+    private static function getNewsletterLangCode($id){
+
+        $langCode = ipDb()->selectValue('newsletterPosts', 'langCode', array('id' => $id));
+        return $langCode;
+
     }
 
     public static function send($newsletterId){
 
-        $subscribers = self::getSubscribers();
+        $langCode = self::getNewsletterLangCode($newsletterId);
+
+        $subscribers = self::getSubscribers($langCode);
         $title = self::getNewsletterTitle($newsletterId);
         $text = self::getNewsletterText($newsletterId);
 

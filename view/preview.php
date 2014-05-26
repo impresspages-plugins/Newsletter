@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default ipsSend" data-dismiss="modal"><?php _e('Send', 'ipAdmin') ?></button>
+                    <button type="button" class="btn btn-default ipsPreviewSend" data-id="" data-emailsubject="" data-emailtext="" data-langcode=""  data-dismiss="modal"><?php _e('Send', 'ipAdmin') ?></button>
                 </div>
             </div>
         </div>

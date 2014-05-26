@@ -23,7 +23,7 @@ var NewsletterAdmin = new function() {
             e.preventDefault();
             var $this = $(this);
             var data  = $this.data();
-            send(data);
+            openSendDialog(data);
         });
 
     }
@@ -31,7 +31,6 @@ var NewsletterAdmin = new function() {
 
     var preview = function (data) {
 
-//        newsletterPreviewTemplate.find('modal-body');
 
         var id = data.id;
         var emailSubject = data.emailsubject;
@@ -44,7 +43,31 @@ var NewsletterAdmin = new function() {
         }
 
         $modal.find('.modal-body').html(emailText);
+
+        $modal.find('.ipsPreviewSend').data(data);
+
+        $('.ipsPreviewSend').off('click').on('click', function(e) {
+
+            e.preventDefault();
+            var $this = $(this);
+            var data  = $this.data();
+            openSendDialog(data);
+        });
+
         $modal.modal();
+    }
+
+    var openSendDialog = function (data){
+
+        var emailSubject = data.emailsubject;
+
+        var confirmed=window.confirm("Click OK button to send your newsletter.\n\nNewsletter subject: \n" + data.emailsubject);
+
+        if (confirmed){
+            send(data);
+        }else{
+            alert("Sending canceled");
+        }
     }
 
     var send = function (data) {
@@ -52,6 +75,7 @@ var NewsletterAdmin = new function() {
         var id = data.id;
         var emailSubject = data.emailsubject;
         var emailText = data.emailtext;
+        var langCode= data.langCode;
 
         $.ajax({
             url: ip.baseUrl, //we assume that for already has m, g, a parameters which will lead this request to required controller
@@ -62,6 +86,7 @@ var NewsletterAdmin = new function() {
                 id: id,
                 emailSubject: emailSubject,
                 emailText: emailText,
+                langCode: langCode,
                 securityToken: ip.securityToken
             },
             success: function (response) {
