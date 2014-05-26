@@ -73,7 +73,7 @@ class AdminController
         $fields[] = array(
             'label' => 'Language code',
             'field' => 'langCode',
-            'type' => 'select',
+            'type' => 'Select',
             'values' => $languages
         );
 
@@ -131,7 +131,7 @@ class AdminController
         $fields[] = array(
             'label' => 'Language code',
             'field' => 'langCode',
-            'type' => 'select',
+            'type' => 'Select',
             'values' => $languages
         );
 
@@ -194,7 +194,7 @@ class AdminController
         $variables = array(
             'gateway' => $gateway
         );
-        $content = ipView('/Ip/Internal/Grid/view/placeholder.php', $variables)->render();
+        $content = ipView(ipFile('Ip/Internal/Grid/view/placeholder.php'), $variables)->render();
         $previewTemplate = ipView('view/preview.php')->render();
         ipAddJsVariable('newsletterPreviewTemplate', $previewTemplate);
         return $content;

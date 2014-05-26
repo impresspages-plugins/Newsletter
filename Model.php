@@ -93,7 +93,6 @@ class Model {
         $text = self::getNewsletterText($newsletterId);
 
         foreach ($subscribers as $subscriber){
-//            ipSendEmail('info@example.com', 'from name', 'subscriber@example.com', 'subscriber@example.com', ' TEMA', ' TEKSTAS');
             ipSendEmail(ipGetOption('Newsletter.fromEmail'), ipGetOption('Newsletter.fromName'), $subscriber['email'], $subscriber['email'], $title, $text);
         }
     }
