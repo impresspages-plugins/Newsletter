@@ -2,7 +2,7 @@
 /**
  * Adds administration grid
  *
- * When this plugin is installed, `Newsletter example` panel appears in administration site.
+ * When this plugin is installed, `Newsletter` panel appears in administration site.
  *
  */
 
@@ -92,13 +92,14 @@ class AdminController
         return $this->gridGateway($config);
     }
 
-    public function send(){
+    public function send()
+    {
 
         $newsletterId = ipRequest()->getPost('id');
-        if (isset($newsletterId) && is_numeric($newsletterId)){
+        if (isset($newsletterId) && is_numeric($newsletterId)) {
             Model::send($newsletterId);
             return new \Ip\Response\Json( array('status' => 'success', 'message' => 'Messages were sent successfully.'));
-        }else{
+        } else {
             return new \Ip\Response\Json( array('status' => 'error', 'message' => 'Error occurred.'));
         }
 
@@ -148,15 +149,16 @@ class AdminController
         return $this->gridGateway($config);
     }
 
-    private function checkMenuStatus($aa, $isDefault = false){
+    private function checkMenuStatus($aa, $isDefault = false)
+    {
 
         $query = ipRequest()->getQuery('aa');
 
-        if ($aa == $query){
+        if ($aa == $query) {
             return true;
-        }else if (($query=='Newsletter') && ($isDefault)){
+        } else if (($query=='Newsletter') && ($isDefault)) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
@@ -164,7 +166,8 @@ class AdminController
 
     //GENERAL
 
-    protected function setMenuItem($title, $method, $isDefault = false){
+    protected function setMenuItem($title, $method, $isDefault = false)
+    {
 
         $menuItem = new \Ip\Menu\Item();
         $menuItem->setTitle($title); //
@@ -213,7 +216,8 @@ class AdminController
 
     }
 
-    private static function getLanguages(){
+    private static function getLanguages()
+    {
 
         $langObjects = ipContent()->getLanguages();
         $languages = Array();
@@ -225,4 +229,4 @@ class AdminController
 
         return $languages;
     }
-} 
+}
