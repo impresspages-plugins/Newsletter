@@ -116,13 +116,6 @@ class AdminController
      */
     public function subscribers()
     {
-        return ipGridController($this->subscribersGrid());
-        return $this->showGrid('subscribersGrid');
-    }
-
-    protected function subscribersGrid()
-    {
-
         $fields = Array();
 
         $fields[] =
@@ -130,7 +123,7 @@ class AdminController
                 'label' => __('Email', 'Newsletter-admin', false),
                 'field' => 'email',
                 'validators' => array('Required', 'Email'),
-        );
+            );
 
         $fields[] =
             array(
@@ -168,38 +161,14 @@ class AdminController
             'fields' => $fields,
             'allowSort' => false
         );
-        return $config;
-        return $this->gridGateway($config);
+
+        return ipGridController($config);
     }
 
-    private function checkMenuStatus($aa, $isDefault = false)
-    {
 
-        $query = ipRequest()->getQuery('aa');
 
-        if ($aa == $query) {
-            return true;
-        } else if (($query=='Newsletter') && ($isDefault)) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 
     //GENERAL
-
-    protected function setMenuItem($title, $method, $isDefault = false)
-    {
-
-        $menuItem = new \Ip\Menu\Item();
-        $menuItem->setTitle($title); //
-        $menuItem->setUrl(ipActionUrl(array('aa' => $method)));
-        $menuItem->markAsCurrent($this->checkMenuStatus($method, $isDefault));
-
-        return $menuItem;
-    }
-
 
 
     protected function showGrid($action)
