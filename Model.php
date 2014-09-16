@@ -128,18 +128,17 @@ class Model {
         $langCode = self::getNewsletterLangCode($newsletterId);
 
         if (ipGetOption('Newsletter.confirmSubscribers') == true) {
-        	$subscribers = self::getConfirmedSubscribers($langCode);
+            $subscribers = self::getConfirmedSubscribers($langCode);
         } else {
-        	$subscribers = self::getSubscribers($langCode);
+            $subscribers = self::getSubscribers($langCode);
         }
         $title = self::getNewsletterTitle($newsletterId);
         $text = self::getNewsletterText($newsletterId);
 
-		var_dump($subscribers);
 
-        //foreach ($subscribers as $subscriber){
-        //    ipSendEmail(ipGetOption('Newsletter.fromEmail'), ipGetOption('Newsletter.fromName'), $subscriber['email'], $subscriber['email'], $title, $text);
-        //}
+        foreach ($subscribers as $subscriber){
+            ipSendEmail(ipGetOption('Newsletter.fromEmail'), ipGetOption('Newsletter.fromName'), $subscriber['email'], $subscriber['email'], $title, $text);
+        }
     }
 
     public static function getNewsletterTitle($id){
