@@ -26,7 +26,6 @@ class AdminController
      */
     public function posts()
     {
-        $this->setSubmenu();
         return $this->showGrid('postsGrid');
     }
 
@@ -117,11 +116,11 @@ class AdminController
      */
     public function subscribers()
     {
-        $this->setSubmenu();
+        return ipGridController($this->subscribersGrid());
         return $this->showGrid('subscribersGrid');
     }
 
-    public function subscribersGrid()
+    protected function subscribersGrid()
     {
 
         $fields = Array();
@@ -169,6 +168,7 @@ class AdminController
             'fields' => $fields,
             'allowSort' => false
         );
+        return $config;
         return $this->gridGateway($config);
     }
 
