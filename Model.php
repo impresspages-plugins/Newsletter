@@ -156,7 +156,12 @@ class Model {
     public static function previewEmailText($value, $listValues){
 
 
-        $text = esc(Html2Text::convert('<html><body>'.$listValues['emailText'].'</body></html>'));
+        try {
+            $text = Html2Text::convert('<html><body>' . $listValues['emailText'] . '</body></html>');
+        } catch (Html2TextException $e) {
+            $text = '';
+        }
+        $text = esc($text);
         $text = substr($text, 0, 255);
 
         return $text;
