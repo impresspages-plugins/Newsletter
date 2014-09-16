@@ -5,6 +5,8 @@
 namespace Plugin\Newsletter;
 
 
+
+
 class Model {
 
     /**
@@ -154,8 +156,7 @@ class Model {
     public static function previewEmailText($value, $listValues){
 
 
-        $html2text = new \Ip\Internal\Text\Html2Text('<html><body>'.$listValues['emailText'].'</body></html>', false);
-        $text = esc($html2text->get_text());
+        $text = esc(Html2Text::convert('<html><body>'.$listValues['emailText'].'</body></html>'));
         $text = substr($text, 0, 255);
 
         return $text;
