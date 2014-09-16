@@ -5,23 +5,26 @@
 namespace Plugin\Newsletter;
 
 
-class SiteController extends \Ip\Controller {
+class SiteController extends \Ip\Controller
+{
 
-	public function newsletterConfirm($hash = '') {
-    	
-    	
-    	$data = array(
+    public function newsletterConfirm($hash = '')
+    {
+
+
+        $data = array(
             'isConfirmed' => true
-        	);
-			
-			Model::updateFormData('newsletterSubscribers',$data, $hash);
-    	
-    	$renderedHtml = ipView('view/newsletterConfirmSuccess.php');
+        );
+
+        Model::updateFormData('newsletterSubscribers', $data, $hash);
+
+        $renderedHtml = ipView('view/newsletterConfirmSuccess.php');
 
         return $renderedHtml;
     }
 
-    public function save(){
+    public function save()
+    {
         // Initialize the same form object as it was used to render a form
         $form = new \Ip\Form();
 
@@ -29,7 +32,8 @@ class SiteController extends \Ip\Controller {
         $field = new \Ip\Form\Field\Text(
             array(
                 'name' => 'email', //html "name" attribute
-            ));
+            )
+        );
 
         // Validate e-mail
         $field->addValidator('Email');
@@ -50,7 +54,7 @@ class SiteController extends \Ip\Controller {
             $status = array('status' => 'ok'); //success
         }
 
-        return new \Ip\Response\Json( $status);
+        return new \Ip\Response\Json($status);
     }
 
-} 
+}
