@@ -18,19 +18,13 @@ class AdminController
         return $this->posts();
     }
 
-    //POSTS
-
     /**
      * @ipSubmenu Posts
      * @return string
      */
     public function posts()
     {
-        return $this->showGrid('postsGrid');
-    }
-
-    public function postsGrid()
-    {
+        $this->init();
 
         $fields = array();
 
@@ -38,8 +32,8 @@ class AdminController
             'label' => '',
             'field' => 'id',
             'preview' => function ($id, $record) {
-                   return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsPreview">Preview</button>';
-                },
+                return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsPreview">Preview</button>';
+            },
             'allowUpdate' => false,
             'allowCreate' => false,
             'allowSearch' => false
@@ -51,8 +45,8 @@ class AdminController
             'label' => '',
             'field' => 'id',
             'preview' => function ($id, $record) {
-                    return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsSend">Send</button>';
-                },
+                return '<button type="button" data-id="'.escAttr($record['id']).'"  data-emailSubject="'.escAttr($record['emailSubject']).'" data-emailText="'.escAttr($record['emailText']).'" class="btn btn-default ipsSend">Send</button>';
+            },
             'allowUpdate' => false,
             'allowCreate' => false,
             'allowSearch' => false
@@ -91,9 +85,10 @@ class AdminController
             'allowSort' => false
 
         );
-
-        return $this->gridGateway($config);
+        return ipGridController($config);
     }
+
+
 
     public function send()
     {
@@ -116,6 +111,7 @@ class AdminController
      */
     public function subscribers()
     {
+        $this->init();
         $fields = Array();
 
         $fields[] =
@@ -171,33 +167,10 @@ class AdminController
     //GENERAL
 
 
-    protected function showGrid($action)
+    private function init()
     {
-        ipAddJs('Ip/Internal/Grid/assets/grid.js');
-        ipAddJs('Ip/Internal/Grid/assets/gridInit.js');
-
-        $gateway = array('aa' => 'Newsletter.' . $action);
-
-        $variables = array(
-            'gateway' => $gateway
-        );
-        $content = ipView(ipFile('Ip/Internal/Grid/view/placeholder.php'), $variables)->render();
         $previewTemplate = ipView('view/preview.php')->render();
         ipAddJsVariable('newsletterPreviewTemplate', $previewTemplate);
-        return $content;
-    }
-
-    protected function gridGateway($config)
-    {
-        $worker = new \Ip\Internal\Grid\Worker($config);
-        $result = $worker->handleMethod(ipRequest());
-
-        if (is_array($result) && !empty($result['error']) && !empty($result['errors'])) {
-            return new \Ip\Response\Json($result);
-        }
-
-        return new \Ip\Response\JsonRpc($result);
-
     }
 
     private static function getLanguages()
