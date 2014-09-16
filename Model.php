@@ -27,7 +27,7 @@ class Model
 
             $confirmLink = ipRouteUrl('Newsletter_Confirm', array('hash' => $activationkey));
             $message = ipGetOption('Newsletter.confirmEmailMessage');
-            $message = str_replace("{{link}}", "<a href='" . $confirmLink . "'>Confirm Email Address</a>", $message);
+            $message = str_replace("{{link}}", "<a href=\"" . $confirmLink . "\">Confirm Email Address</a>", $message);
 
             ipSendEmail(
                 ipGetOption('Newsletter.fromEmail'),

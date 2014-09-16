@@ -21,7 +21,7 @@
             "label": "Email confirmation message",
             "name": "confirmEmailMessage",
             "type": "richText",
-            "default": "<p>Please click here to confirm the subscription to our newsletter.<br><br>{{link}}</p>",
+            "default": "<p>Please click here to confirm the subscription to our newsletter.<br/><br/>{{link}}</p>",
             "hint" : "Use {{link}} placeholder to place the link"
         },
         {

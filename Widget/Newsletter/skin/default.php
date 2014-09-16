@@ -4,5 +4,5 @@ echo $form->render();
 ?>
 </div>
 <div class="ipsThankYou hidden">
-<?php echo __('Your e-mail was registered successfully. Thank you very much!', 'Newsletter'); ?>
+    <?php echo esc($thankYouMessage) ?>
 </div>
