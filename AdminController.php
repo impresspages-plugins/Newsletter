@@ -122,22 +122,39 @@ class AdminController
 
         $fields[] =
             array(
-                'label' => 'Email',
+                'label' => __('Email', 'Newsletter-admin', false),
                 'field' => 'email',
                 'validators' => array('Required', 'Email'),
         );
 
+        $fields[] =
+            array(
+                'label' => __('Confirmed email', 'Newsletter-admin', false),
+                'type' => 'Checkbox',
+                'field' => 'isConfirmed'
+            );
+
+        $fields[] =
+            array(
+                'label' => __('Subscribed', 'Newsletter-admin', false),
+                'type' => 'Checkbox',
+                'field' => 'isSubscribed'
+            );
+
         $languages = self::getLanguages();
 
         $fields[] = array(
-            'label' => 'Language code',
+            'label' => __('Language code', 'Newsletter-admin', false),
             'field' => 'langCode',
             'type' => 'Select',
             'values' => $languages
         );
 
+
+
+
         $config = array(
-            'title' => 'Subscribers',
+            'title' => __('Subscribers', 'Newsletter-admin', false),
             'table' => 'newsletterSubscribers',
             'deleteWarning' => 'Are you sure?',
             'sortField' => 'personOrder',
@@ -181,8 +198,8 @@ class AdminController
     {
         $submenu = array();
 
-        $submenu[] = $this->setMenuItem('Posts', 'Newsletter.posts', true);
-        $submenu[] = $this->setMenuItem('Subscribers', 'Newsletter.subscribers');
+        $submenu[] = $this->setMenuItem(__('Posts', 'Newsletter-admin', false), 'Newsletter.posts', true);
+        $submenu[] = $this->setMenuItem(__('Subscribers', 'Newsletter-admin', false), 'Newsletter.subscribers');
 
         ipResponse()->setLayoutVariable('submenu', $submenu);
     }
