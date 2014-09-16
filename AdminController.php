@@ -20,6 +20,10 @@ class AdminController
 
     //POSTS
 
+    /**
+     * @ipSubmenu Posts
+     * @return string
+     */
     public function posts()
     {
         $this->setSubmenu();
@@ -107,8 +111,10 @@ class AdminController
 
     }
 
-    //SUBSCRIBERS
-
+    /**
+     * @return string
+     * @ipSubmenu Subscribers
+     */
     public function subscribers()
     {
         $this->setSubmenu();
@@ -194,15 +200,7 @@ class AdminController
         return $menuItem;
     }
 
-    protected function setSubmenu()
-    {
-        $submenu = array();
 
-        $submenu[] = $this->setMenuItem(__('Posts', 'Newsletter-admin', false), 'Newsletter.posts', true);
-        $submenu[] = $this->setMenuItem(__('Subscribers', 'Newsletter-admin', false), 'Newsletter.subscribers');
-
-        ipResponse()->setLayoutVariable('submenu', $submenu);
-    }
 
     protected function showGrid($action)
     {
