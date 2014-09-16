@@ -19,6 +19,8 @@ class Worker extends \Ip\SetupWorker
         `email` varchar(255),
         `langCode` varchar(5),
         `isSubscribed` boolean,
+        `isConfirmed` boolean,
+        `hash` varchar(32),
         PRIMARY KEY (`id`)
         )';
         ipDb()->execute($sql);

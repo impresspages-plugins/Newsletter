@@ -14,7 +14,35 @@ class Model {
 
     public static function save($email, $langCode = 'en') {
 
-        ipDb()->insert('newsletterSubscribers', array('email' => $email, 'isSubscribed' => 1, 'langCode' => $langCode));
+		$activationkey = '';
+		if (ipGetOption('Newsletter.confirmSubscribers') == true) {
+    		// Generate activation key
+			$length = 32;
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+			for ($p = 0; $p < $length; $p++) { 
+				$activationkey .= $characters[mt_rand(0, strlen($characters-1))]; 
+			}	
+		
+			$confirmLink = ipRouteUrl('Newsletter_Confirm', array('hash' => $activationkey));
+			$message = ipGetOption('Newsletter.confirmEmailMessage');
+    		$message = str_replace("{{link}}", "<a href='".$confirmLink."'>Confirm Email Address</a>", $message);
+    
+    		ipSendEmail(
+    			ipGetOption('Newsletter.fromEmail'), 
+    			ipGetOption('Newsletter.fromName'), 
+    			$email, 
+    			$email,  
+    			ipGetOption('Newsletter.confirmEmailSubject'),
+    			ipEmailTemplate (array ("content" => $message))
+    		);
+		}
+			
+		ipDb()->insert('newsletterSubscribers', array('email' => $email, 'isSubscribed' => 1, 'isConfirmed' => 0, 'langCode' => $langCode, 'hash' => $activationkey));
+    	
+    }
+
+	public static function updateFormData($table, array $data, $hash) {
+        return ipDb()->update($table, $data, array('hash' => $hash));
     }
 
     /**
@@ -63,16 +91,25 @@ class Model {
         $form->addField($field);
 
         // Add submit button
-        $form->addField(new \Ip\Form\Field\Submit(array('value' => 'Save')));
+        $form->addField(new \Ip\Form\Field\Submit(array('value' => '')));
 
         return $form;
     }
 
     public static function getSubscribers($langCode = false){
         if (!$langCode){
-            $lang = ipDb()->selectAll('newsletterSubscribers', '*');
+            $lang = ipDb()->selectAll('newsletterSubscribers', '*', array('isSubscribed' => true));
         }else{
-            $lang = ipDb()->selectAll('newsletterSubscribers', '*', array('langCode' => $langCode));
+            $lang = ipDb()->selectAll('newsletterSubscribers', '*', array('langCode' => $langCode, 'isSubscribed' => true));
+        }
+        return $lang;
+    }
+    
+    public static function getConfirmedSubscribers($langCode = false){
+        if (!$langCode){
+            $lang = ipDb()->selectAll('newsletterSubscribers', '*', array('isSubscribed' => true, 'isConfirmed' => true));
+        }else{
+            $lang = ipDb()->selectAll('newsletterSubscribers', '*', array('langCode' => $langCode, 'isSubscribed' => true, 'isConfirmed' => true));
         }
         return $lang;
     }
@@ -87,14 +124,20 @@ class Model {
     public static function send($newsletterId){
 
         $langCode = self::getNewsletterLangCode($newsletterId);
-
-        $subscribers = self::getSubscribers($langCode);
+		
+        if (ipGetOption('Newsletter.confirmSubscribers') == true) {
+        	$subscribers = self::getConfirmedSubscribers($langCode);
+        } else {
+        	$subscribers = self::getSubscribers($langCode);
+        }
         $title = self::getNewsletterTitle($newsletterId);
         $text = self::getNewsletterText($newsletterId);
 
-        foreach ($subscribers as $subscriber){
-            ipSendEmail(ipGetOption('Newsletter.fromEmail'), ipGetOption('Newsletter.fromName'), $subscriber['email'], $subscriber['email'], $title, $text);
-        }
+		var_dump($subscribers);
+
+        //foreach ($subscribers as $subscriber){
+        //    ipSendEmail(ipGetOption('Newsletter.fromEmail'), ipGetOption('Newsletter.fromName'), $subscriber['email'], $subscriber['email'], $title, $text);
+        //}
     }
 
     public static function getNewsletterTitle($id){

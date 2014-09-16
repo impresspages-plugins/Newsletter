@@ -7,6 +7,20 @@ namespace Plugin\Newsletter;
 
 class SiteController extends \Ip\Controller {
 
+	public function newsletterConfirm($hash = '') {
+    	
+    	
+    	$data = array(
+            'isConfirmed' => true
+        	);
+			
+			Model::updateFormData('newsletterSubscribers',$data, $hash);
+    	
+    	$renderedHtml = ipView('view/newsletterConfirmSuccess.php');
+
+        return $renderedHtml;
+    }
+
     public function save(){
         // Initialize the same form object as it was used to render a form
         $form = new \Ip\Form();

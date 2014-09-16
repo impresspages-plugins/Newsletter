@@ -15,3 +15,12 @@ $routes['newsletterAdminGrid'] = array(
     'environment' => 'admin'
 );
 
+$routes['NewsletterConfirm{/hash}'] = array(
+    'name' => 'Newsletter_Confirm',
+    'plugin' => 'Newsletter',
+    'controller' => 'SiteController',
+    'action' => 'newsletterConfirm'
+);
+
+
+
