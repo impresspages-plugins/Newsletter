@@ -6,22 +6,23 @@
 "author": "ImpressPages",
     "options": [
         {
-            "label": "Newsletter admin. Confirm subscribers",
+            "label": "Require email confirmation",
             "name": "confirmSubscribers",
             "type": "checkbox",
-            "default": false
+            "hint": "If checked, user will be added to the subscription list only after pressing a confirmation link in his email."
         },
         {
-            "label": "Newsletter admin. Confirm email subject",
+            "label": "Email confirmation subject",
             "name": "confirmEmailSubject",
             "type": "text",
             "default": "Confirm subscription to newsletter"
         },
         {
-            "label": "Newsletter admin. Confirm email message (use {{link}} to place the link)",
+            "label": "Email confirmation message",
             "name": "confirmEmailMessage",
             "type": "richText",
-            "default": "<p>Please click here to confirm the subscription to our newsletter.<br><br>{{link}}</p>"
+            "default": "<p>Please click here to confirm the subscription to our newsletter.<br><br>{{link}}</p>",
+            "hint" : "Use {{link}} placeholder to place the link"
         },
         {
             "label": "Newsletter admin. items per page",
@@ -35,6 +36,6 @@
             "type": "text",
             "default": ""
         }
-        
+
     ]
 }
