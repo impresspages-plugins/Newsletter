@@ -53,7 +53,7 @@ class Model
         );
         $data['id'] = $id;
 
-        ipEvent('Newsletter.subscriberAdded', $data);
+        ipEvent('Newsletter_subscriberAdded', $data);
     }
 
     public static function updateFormData($table, array $data, $hash)
