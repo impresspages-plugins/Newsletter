@@ -39,17 +39,21 @@ class Model
             );
         }
 
-        ipDb()->insert(
-            'newsletterSubscribers',
-            array(
-                'email' => $email,
-                'isSubscribed' => 1,
-                'isConfirmed' => 0,
-                'langCode' => $langCode,
-                'hash' => $activationkey
-            )
+        $data =             array(
+            'email' => $email,
+            'isSubscribed' => 1,
+            'isConfirmed' => 0,
+            'langCode' => $langCode,
+            'hash' => $activationkey
         );
 
+        $id = ipDb()->insert(
+            'newsletterSubscribers',
+            $data
+        );
+        $data['id'] = $id;
+
+        ipEvent('Newsletter.subscriberAdded', $data);
     }
 
     public static function updateFormData($table, array $data, $hash)
