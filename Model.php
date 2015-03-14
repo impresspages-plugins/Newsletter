@@ -76,11 +76,27 @@ class Model
         }
     }
 
+    public static function getSubscriber($email, $languageCode = null)
+    {
+        $params = array(
+            'email' => $email
+        );
+        if ($languageCode !== null) {
+            $params['languageCode'] = $languageCode;
+        }
+        $result = ipDb()->selectRow('newsletterSubscribers', '*', $params, ' ORDER BY isSubscribed DESC, isConfirmed DESC');
+        return $result;
+    }
+
+
+
     public static function createForm()
     {
 
         // Create a form object
         $form = new \Ip\Form();
+
+        $form->setEnvironment(\Ip\Form::ENVIRONMENT_PUBLIC);
 
         // Add a text field to form object
         $field = new \Ip\Form\Field\Text(

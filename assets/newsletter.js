@@ -1,4 +1,4 @@
-$('.ipWidget-Newsletter form').on('ipSubmitResponse', function(e, response) {
+$('.ipWidget-Newsletter form').on('ipSubmitResponse.Newsletter', function(e, response) {
     var $this = $(this);
     var $widget = $this.closest('.ipWidget-Newsletter');
 
