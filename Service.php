@@ -17,15 +17,20 @@ namespace Plugin\Newsletter;
 class Service
 {
     /**
-     * @return Model
+     * @return Service
      */
     public static function instance()
     {
-        return new Model();
+        return new Service();
     }
 
     public function getSubscriber($email, $languageCode = null)
     {
         return Model::getSubscriber($email, $languageCode);
+    }
+
+    public function subscribe($email, $languageCode = null)
+    {
+        return Model::save($email, $languageCode);
     }
 }

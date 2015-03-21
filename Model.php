@@ -13,9 +13,12 @@ class Model
      * @param $email
      */
 
-    public static function save($email, $langCode = 'en')
+    public static function save($email, $langCode = null)
     {
 
+        if ($langCode == null) {
+            $langCode = ipContent()->getCurrentLanguage()->getCode();
+        }
         $activationkey = '';
         if (ipGetOption('Newsletter.confirmSubscribers') == true) {
             // Generate activation key
