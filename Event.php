@@ -43,7 +43,7 @@ class Event
             ipGetOption('Newsletter.fromName'),
             $email,
             $email,
-            ipGetOption('Newsletter.confirmEmailSubject'),
+            ipGetOption('Newsletter.welcomeEmailSubject'),
             $emailHtml
         );
     }
