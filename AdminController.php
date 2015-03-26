@@ -80,7 +80,6 @@ class AdminController
             'deleteWarning' => 'Are you sure?',
             'sortField' => 'postOrder',
             'createPosition' => 'top',
-            'pageSize' => ipGetOption('Newsletter.adminPageItems'),
             'fields' => $fields,
             'allowSort' => false
 
@@ -153,7 +152,6 @@ class AdminController
             'deleteWarning' => 'Are you sure?',
             'sortField' => 'personOrder',
             'createPosition' => 'top',
-            'pageSize' => ipGetOption('Newsletter.adminPageItems'),
             'fields' => $fields,
             'allowSort' => false
         );

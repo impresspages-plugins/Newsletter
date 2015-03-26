@@ -16,9 +16,18 @@ class SiteController extends \Ip\Controller
             'isConfirmed' => true
         );
 
+        $subscriber = Model::getSubscriberByHash($hash);
+
         Model::updateFormData('newsletterSubscribers', $data, $hash);
 
         $renderedHtml = ipView('view/newsletterConfirmSuccess.php');
+
+
+        if ($subscriber && !$subscriber['isConfirmed']) {
+            $subscriber['isConfirmed'] = 1;
+            ipEvent('Newsletter_subscriberConfirmed', $subscriber);
+        }
+
 
         return $renderedHtml;
     }

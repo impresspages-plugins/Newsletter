@@ -30,7 +30,8 @@ class Model
 
             $confirmLink = ipRouteUrl('Newsletter_Confirm', array('hash' => $activationkey));
             $message = ipGetOption('Newsletter.confirmEmailMessage');
-            $message = str_replace("{{link}}", "<a href=\"" . $confirmLink . "\">Confirm Email Address</a>", $message);
+            $message = str_replace("{{link}}", "<a href=\"" . $confirmLink . "\">" . $confirmLink . "</a>", $message); //old syntax
+            $message = str_replace("{link}", "<a href=\"" . $confirmLink . "\">" . $confirmLink . "</a>", $message); //new syntax
 
             ipSendEmail(
                 ipGetOption('Newsletter.fromEmail'),
@@ -91,6 +92,15 @@ class Model
         return $result;
     }
 
+
+
+    public static function getSubscriberByHash($hash)
+    {
+        $params = array();
+        $params['hash'] = $hash;
+        $result = ipDb()->selectRow('newsletterSubscribers', '*', $params, ' ORDER BY id DESC');
+        return $result;
+    }
 
 
     public static function createForm()

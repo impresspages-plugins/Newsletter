@@ -22,19 +22,32 @@
             "name": "confirmEmailMessage",
             "type": "richText",
             "default": "<p>Please click here to confirm the subscription to our newsletter.<br/><br/>{{link}}</p>",
-            "hint" : "Use {{link}} placeholder to place the link"
+            "hint" : "Use {link} placeholder to place the link"
         },
         {
-            "label": "Newsletter admin. items per page",
-            "name": "adminPageItems",
-            "type": "text",
-            "default": "25"
-        },
-        {
-            "label": "From e-mail address",
+            "label": "Use following sender e-mail address",
             "name": "fromEmail",
             "type": "text",
-            "default": ""
+            "default": "",
+            "note": "Leave empty for default"
+        },
+        {
+            "label": "Send welcome email",
+            "name": "sendWelcomeEmail",
+            "type": "Checkbox",
+            "default": 1
+        },
+        {
+            "label": "Welcome email subject",
+            "name": "welcomeEmailSubject",
+            "type": "Text",
+            "default": "Welcome to our newsletter"
+        },
+        {
+            "label": "Welcome email text",
+            "name": "welcomeEmailText",
+            "type": "RichText",
+            "default": "<p>Welcome to our mailing list. Hope you will enjoy our news. You can unsubscribe at any time by pressing an unsubscribe link at the bottom of every email.</p>"
         }
 
     ]
