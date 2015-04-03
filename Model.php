@@ -120,6 +120,7 @@ class Model
         );
 
         $field->addValidator('Email');
+        $field->addValidator('Required');
 
         // Add custom validator for checking if e-mail already exists in a table.
         $customValidator = new ValidateSubscriber();
