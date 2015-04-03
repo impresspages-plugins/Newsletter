@@ -16,9 +16,9 @@ class Controller extends \Ip\WidgetController
         $data['form'] = $form;
 
         if (ipGetOption('Newsletter.confirmSubscribers') == true) {
-            $text = 'Please open your mailbox and press the confirmation link to complete the subscription process.';
+            $text = __('Please open your mailbox and press the confirmation link to complete the subscription process.', 'Newsletter', false);
         } else {
-            $text = 'Your e-mail was registered successfully. Thank you very much!';
+            $text = __('Your e-mail has been successfully registered.', 'Newsletter', false);
         }
         $data['thankYouMessage'] = __(
             $text,
