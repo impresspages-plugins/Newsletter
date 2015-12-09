@@ -115,7 +115,7 @@ class Model
         $field = new \Ip\Form\Field\Text(
             array(
                 'name' => 'email', // HTML "name" attribute
-                'label' => 'E-mail' // Field label that will be displayed next to input field
+                'label' => __('E-mail', 'Newsletter', false) // Field label that will be displayed next to input field
             )
         );
 
